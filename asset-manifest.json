@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/react-hooks-images-finder/static/css/main.7f5d4902.css",
+    "main.js": "/react-hooks-images-finder/static/js/main.0b34f9cb.js",
+    "static/media/error.jpg": "/react-hooks-images-finder/static/media/error.adae620b7899b7cabf16.jpg",
+    "index.html": "/react-hooks-images-finder/index.html",
+    "static/media/icon-search.svg": "/react-hooks-images-finder/static/media/icon-search.92d44d5048082077df9b.svg",
+    "main.7f5d4902.css.map": "/react-hooks-images-finder/static/css/main.7f5d4902.css.map",
+    "main.0b34f9cb.js.map": "/react-hooks-images-finder/static/js/main.0b34f9cb.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7f5d4902.css",
+    "static/js/main.0b34f9cb.js"
+  ]
+}
