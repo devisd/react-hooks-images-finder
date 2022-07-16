@@ -17,38 +17,16 @@ const App = () => {
   const [status, setStatus] = useState('idle');
   const [error, setError] = useState(null);
 
-  // state = {
-  //   searchQuery: '',
-  //   hits: [],
-  //   currentPage: 1,
-  //   modal: false,
-  //   modalImage: '',
-  //   status: 'idle',
-  //   error: null,
-  // };
-
-  useEffect(() => fetchImg(), [searchQuery]);
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (prevState.searchQuery !== this.state.searchQuery) {
-  //     this.setState({
-  //       status: 'pending',
-  //     });
-  //     this.fetchImg();
-  //   }
-  // }
-
   function handleInputChange(data) {
     setSearchQuery(data.trim());
+    setHits([]);
+    setCurrentPage(1);
     setStatus('pending');
-
-    // this.setState({ searchQuery: data.trim(), currentPage: 1, hits: [] });
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchImg = () => {
-    // const { searchQuery, currentPage } = this.state;
     const option = { searchQuery, currentPage };
-    console.log(option);
 
     if (!searchQuery) return;
 
@@ -57,42 +35,31 @@ const App = () => {
         setHits(prevState => [...prevState, ...result]);
         setCurrentPage(prevState => prevState + 1);
         setStatus('resolved');
-        // this.setState(prevState => ({
-        //   status: 'resolved',
-        //   hits: [...prevState.hits, ...result],
-        //   currentPage: prevState.currentPage + 1,
-        // }));
       })
-      .catch(
-        error => {
-          setError(error);
-          setStatus('rejected');
-        }
-        // this.setState({
-        //   error,
-        //   status: 'rejected',
-        // })
-      );
+      .catch(error => {
+        setError(error);
+        setStatus('rejected');
+      });
     window.scrollTo({
       top: document.documentElement.scrollHeight,
       behavior: 'smooth',
     });
   };
 
-  const handleModalOpen = largeImageUrl => {
+  function handleModalOpen(largeImageUrl) {
     setModal(true);
     setModalImage(largeImageUrl);
-    // this.setState({ modal: true, modalImage: largeImageUrl });
-  };
+  }
 
   const handleModalClose = () => {
     setModal(false);
     setModalImage('');
-    // this.setState({ modal: false, modalImage: '' });
   };
 
-  // render() {
-  // const { hits, modal, modalImage, status, error } = this.state;
+  useEffect(() => {
+    fetchImg();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery]);
 
   if (status === 'idle') {
     return (
@@ -140,6 +107,5 @@ const App = () => {
     );
   }
 };
-// }
 
 export default App;

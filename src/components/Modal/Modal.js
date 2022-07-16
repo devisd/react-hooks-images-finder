@@ -12,14 +12,6 @@ const Modal = ({ onClose, children }) => {
     };
   });
 
-  // componentDidMount() {
-  //   window.addEventListener('keydown', handleKeyDown);
-  // }
-
-  // componentWillUnmount() {
-  //     window.removeEventListener('keydown', handleKeyDown);
-  // }
-
   const handleKeyDown = e => {
     if (e.code === 'Escape') {
       onClose();
@@ -32,7 +24,6 @@ const Modal = ({ onClose, children }) => {
     }
   };
 
-  // render() {
   return createPortal(
     <div className="Overlay" onClick={handleBackdropClick}>
       <div className="Modal">{children}</div>
@@ -40,6 +31,5 @@ const Modal = ({ onClose, children }) => {
     modalRoot
   );
 };
-// }
 
 export default Modal;
