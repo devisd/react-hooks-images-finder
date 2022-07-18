@@ -18,36 +18,41 @@ const App = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (!searchQuery) {
+      return;
+    }
+
+    const fetchImg = () => {
+      const option = { searchQuery, currentPage };
+      setStatus('pending');
+
+      imageApi(option)
+        .then(result => {
+          setHits(prevState => [...prevState, ...result]);
+          setStatus('resolved');
+        })
+        .catch(error => {
+          setError(error.message);
+          setStatus('rejected');
+        });
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth',
+      });
+    };
+
     fetchImg();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchQuery]);
+  }, [currentPage, searchQuery]);
+
+  const updatePage = () => {
+    setCurrentPage(prevPage => prevPage + 1);
+  };
 
   const handleInputChange = data => {
     setSearchQuery(data.trim());
     setCurrentPage(1);
     setHits([]);
-    setStatus('pending');
-  };
-
-  const fetchImg = () => {
-    const option = { searchQuery, currentPage };
-
-    if (!searchQuery) return;
-
-    imageApi(option)
-      .then(result => {
-        setHits(prevState => [...prevState, ...result]);
-        setCurrentPage(prevState => prevState + 1);
-        setStatus('resolved');
-      })
-      .catch(error => {
-        setError(error);
-        setStatus('rejected');
-      });
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: 'smooth',
-    });
+    setError(null);
   };
 
   const handleModalOpen = largeImageUrl => {
@@ -74,6 +79,7 @@ const App = () => {
     return (
       <Container>
         <Searchbar onSubmit={handleInputChange} />
+        {hits && <ImageGallery hits={hits} onImageClick={handleModalOpen} />}
         <Loader />
       </Container>
     );
@@ -88,18 +94,18 @@ const App = () => {
   }
   if (status === 'resolved') {
     return (
-      <div>
+      <>
         <Container>
           <Searchbar onSubmit={handleInputChange} />
           <ImageGallery hits={hits} onImageClick={handleModalOpen} />
-          <Button onLoadClick={fetchImg} text="Load more" />
+          <Button onLoadClick={updatePage} text="Load more" />
         </Container>
         {modal && (
           <Modal onClose={handleModalClose}>
             <img src={modalImage} alt="" />
           </Modal>
         )}
-      </div>
+      </>
     );
   }
 };
