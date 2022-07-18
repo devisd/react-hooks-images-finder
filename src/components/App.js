@@ -17,14 +17,18 @@ const App = () => {
   const [status, setStatus] = useState('idle');
   const [error, setError] = useState(null);
 
-  function handleInputChange(data) {
-    setSearchQuery(data.trim());
-    setHits([]);
-    setCurrentPage(1);
-    setStatus('pending');
-  }
+  useEffect(() => {
+    fetchImg();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleInputChange = data => {
+    setSearchQuery(data.trim());
+    setCurrentPage(1);
+    setHits([]);
+    setStatus('pending');
+  };
+
   const fetchImg = () => {
     const option = { searchQuery, currentPage };
 
@@ -46,20 +50,15 @@ const App = () => {
     });
   };
 
-  function handleModalOpen(largeImageUrl) {
+  const handleModalOpen = largeImageUrl => {
     setModal(true);
     setModalImage(largeImageUrl);
-  }
+  };
 
   const handleModalClose = () => {
     setModal(false);
     setModalImage('');
   };
-
-  useEffect(() => {
-    fetchImg();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchQuery]);
 
   if (status === 'idle') {
     return (
@@ -71,7 +70,6 @@ const App = () => {
       </Container>
     );
   }
-
   if (status === 'pending') {
     return (
       <Container>
@@ -80,7 +78,6 @@ const App = () => {
       </Container>
     );
   }
-
   if (status === 'rejected') {
     return (
       <Container>
@@ -89,7 +86,6 @@ const App = () => {
       </Container>
     );
   }
-
   if (status === 'resolved') {
     return (
       <div>

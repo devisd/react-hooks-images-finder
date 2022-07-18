@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import './ImageGalleryItem.css';
 
 const ImageGalleryItem = ({ image, largeImageURL, tags, onModal }) => {
@@ -14,3 +15,10 @@ const ImageGalleryItem = ({ image, largeImageURL, tags, onModal }) => {
 };
 
 export default ImageGalleryItem;
+
+ImageGalleryItem.propTypes = {
+  image: PropTypes.string.isRequired,
+  largeImageURL: PropTypes.string.isRequired,
+  tags: PropTypes.string.isRequired,
+  onModal: PropTypes.func.isRequired,
+};

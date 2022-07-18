@@ -11,9 +11,9 @@ const Button = ({ text, onLoadClick }) => {
   );
 };
 
+export default Button;
+
 Button.propTypes = {
   text: PropTypes.string.isRequired,
   onLoadClick: PropTypes.func,
 };
-
-export default Button;
